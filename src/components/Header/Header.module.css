@@ -5,7 +5,9 @@
   background-color: var(--color-bg-dark);
   border-bottom: 1px solid var(--color-grey);
 }
-
+.darkMode {
+  background-color: black;
+}
 .filters {
   display: flex;
 }
