@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AddTodo from '../AddTodo/AddTodo';
 import Todo from '../Todo/Todo';
 import styles from './TodoList.module.css';
 
 export default function TodoList({ filter }) {
-  const [todos, setTodos] = useState([
-    { text: 'grocery shopping', id: '1', status: 'active' },
-    { text: 'learning', id: '2', status: 'active' },
-  ]);
+  const [todos, setTodos] = useState(readTodosFromLocalStorage);
 
   const handleAdd = (todo) => {
     setTodos([...todos, todo]);
@@ -20,6 +17,10 @@ export default function TodoList({ filter }) {
   const handleDelete = (deleted) => {
     setTodos(todos.filter((t) => t.id !== deleted.id));
   };
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
 
   const filtered = getFilteredItem(todos, filter);
   return (
@@ -41,6 +42,11 @@ export default function TodoList({ filter }) {
   );
 }
 
+function readTodosFromLocalStorage() {
+  console.log('re');
+  const todos = localStorage.getItem('todos');
+  return todos ? JSON.parse(todos) : [];
+}
 function getFilteredItem(todos, filter) {
   if (filter === 'all') {
     return todos;
